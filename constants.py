@@ -1,0 +1,1 @@
+tb_log_dir='/git/tensorboard/graph'
