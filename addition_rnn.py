@@ -55,7 +55,7 @@ class colors:
 
 # Parameters for the model and dataset.
 TRAINING_SIZE = 50000
-DIGITS = 3
+DIGITS = 4
 REVERSE = True
 
 # Maximum length of input is 'int + int' (e.g., '345+678'). Maximum length of
