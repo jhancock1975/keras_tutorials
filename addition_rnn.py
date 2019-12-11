@@ -3,7 +3,14 @@ from keras.models import Sequential
 from keras import layers
 import numpy as np
 from six.moves import range
+import constants as const
+import keras
+import logging
+import os
+import matplotlib.pyplot as plt
 
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
+logging.info('starting up')
 
 class CharacterTable(object):
     """Given a set of characters:
@@ -152,7 +159,39 @@ model.add(layers.TimeDistributed(layers.Dense(len(chars), activation='softmax'))
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
-model.summary()
+logging.info(model.summary())
+
+tbCallBack = keras.callbacks.TensorBoard(log_dir=const.tb_log_dir,
+                                         histogram_freq=0, write_graph=True, write_images=True)
+img_dir_name='addition_rnn_plots'
+
+try:
+    os.mkdir(img_dir_name)
+except FileExistsError:
+    logging.info('directory {} exists'.format(img_dir_name))
+
+def do_plots(history, img_dir_name, img_name):
+    logging.info('history keys'.format(str(history.history.keys())))
+    # summarize history for accuracy     
+    plt.subplot(211)  
+    plt.plot(history.history['accuracy'])  
+    plt.plot(history.history['val_accuracy'])  
+    plt.title('model accuracy')  
+    plt.ylabel('accuracy')  
+    plt.xlabel('epoch')  
+    plt.legend(['train', 'test'], loc='upper left')  
+    
+    # summarize history for loss  
+    
+    plt.subplot(212)  
+    plt.plot(history.history['loss'])  
+    plt.plot(history.history['val_loss'])  
+    plt.title('model loss')  
+    plt.ylabel('loss')  
+    plt.xlabel('epoch')  
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.savefig('{}/{}'.format(img_dir_name, img_name))
+    pass
 
 # Train the model each generation and show predictions against the validation
 # dataset.
@@ -160,10 +199,14 @@ for iteration in range(1, 200):
     print()
     print('-' * 50)
     print('Iteration', iteration)
-    model.fit(x_train, y_train,
+    history = model.fit(x_train, y_train,
               batch_size=BATCH_SIZE,
               epochs=1,
-              validation_data=(x_val, y_val))
+                        validation_data=(x_val, y_val), callbacks=[tbCallBack],
+                        verbose=2)
+
+    do_plots(history, img_dir_name, 'perf_{}.png'.format(iteration))
+    
     # Select 10 samples from the validation set at random so we can visualize
     # errors.
     for i in range(10):

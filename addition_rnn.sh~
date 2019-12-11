@@ -1,0 +1,6 @@
+#!/bin/bash
+log_dir=/git/tensorboard/addition_rnn_graph
+rm -rf $log_dir
+mkdir -p $log_dir
+tensorboard --log-dir=$logdir --port=8888
+python addition_rnn.py 2>&1 | tee addition_rnn.log
