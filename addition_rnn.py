@@ -175,7 +175,7 @@ def do_plots(history, img_dir_name, img_name):
     # summarize history for accuracy     
     plt.subplot(211)  
     plt.plot(history.history['accuracy'])  
-    #plt.plot(history.history['val_accuracy'])  
+    plt.plot(history.history['val_accuracy'])  
     plt.title('model accuracy')  
     plt.ylabel('accuracy')  
     plt.xlabel('epoch')  
@@ -185,7 +185,7 @@ def do_plots(history, img_dir_name, img_name):
     
     plt.subplot(212)  
     plt.plot(history.history['loss'])  
-    #plt.plot(history.history['val_loss'])  
+    plt.plot(history.history['val_loss'])  
     plt.title('model loss')  
     plt.ylabel('loss')  
     plt.xlabel('epoch')  
@@ -201,9 +201,10 @@ for iteration in range(1, 200):
     print('Iteration', iteration)
     history = model.fit(x_train, y_train,
               batch_size=BATCH_SIZE,
-              epochs=1,
+              epochs=5,
                         validation_data=(x_val, y_val), callbacks=[tbCallBack],
                         verbose=2)
+    logging.debug('history = {}'.format(history.history))
 
     do_plots(history, img_dir_name, 'perf_{}.png'.format(iteration))
     
