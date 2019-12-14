@@ -1,5 +1,7 @@
 #!/bin/bash
 source utils.sh
+source constants.py
+
 log "starting up"
 
 log_dir=/git/tensorboard/addition_rnn_graph

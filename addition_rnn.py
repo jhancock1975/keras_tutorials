@@ -135,7 +135,7 @@ HIDDEN_SIZE = 128
 BATCH_SIZE = 128
 LAYERS = 1
 
-print('Build model...')
+logging.debug('Build model...')
 model = Sequential()
 # "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE.
 # Note: In a situation where your input sequences have a variable length,
@@ -171,25 +171,25 @@ except FileExistsError:
     logging.info('directory {} exists'.format(img_dir_name))
 
 def do_plots(history, img_dir_name, img_name):
-    logging.info('history keys'.format(str(history.history.keys())))
+    logging.debug('history keys {}'.format(str(history.history.keys())))
     # summarize history for accuracy     
     plt.subplot(211)  
     plt.plot(history.history['accuracy'])  
-    plt.plot(history.history['val_accuracy'])  
+    #plt.plot(history.history['val_accuracy'])  
     plt.title('model accuracy')  
     plt.ylabel('accuracy')  
     plt.xlabel('epoch')  
-    plt.legend(['train', 'test'], loc='upper left')  
+    plt.legend(['train', 'test'], loc='upper right')  
     
     # summarize history for loss  
     
     plt.subplot(212)  
     plt.plot(history.history['loss'])  
-    plt.plot(history.history['val_loss'])  
+    #plt.plot(history.history['val_loss'])  
     plt.title('model loss')  
     plt.ylabel('loss')  
     plt.xlabel('epoch')  
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train', 'test'], loc='upper right')
     plt.savefig('{}/{}'.format(img_dir_name, img_name))
     pass
 
