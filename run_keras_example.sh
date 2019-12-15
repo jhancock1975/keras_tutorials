@@ -10,11 +10,11 @@ source constants.py
 
 log "starting up"
 
-log "log_dir = "${log_dir}
+log "log_dir = "${tb_log_dir}
 
 killall -HUP tensorboard
-rm -rf ${log_dir} 
-mkdir -p ${log_dir}
+rm -rf ${tb_log_dir} 
+mkdir -p ${tb_log_dir}
     
-tensorboard --logdir=${log_dir} --port=8888 &
+tensorboard --logdir=${tb_log_dir} --port=8888 --bind_all &
 python $1 2>&1 | tee addition_rnn.log

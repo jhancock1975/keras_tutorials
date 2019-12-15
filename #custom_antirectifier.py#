@@ -9,6 +9,7 @@ import configure_logging
 import os
 import matplotlib.pyplot as plt
 import constants as const
+import plot_history as ph
 
 class Antirectifier(layers.Layer):
     '''This is the combination of a sample-wise

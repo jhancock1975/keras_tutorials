@@ -8,9 +8,9 @@ import keras
 import logging
 import os
 import matplotlib.pyplot as plt
+import configure_logging
+import plot_history as ph
 
-logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
-logging.info('starting up')
 
 class CharacterTable(object):
     """Given a set of characters:
@@ -170,28 +170,6 @@ try:
 except FileExistsError:
     logging.info('directory {} exists'.format(img_dir_name))
 
-def do_plots(history, img_dir_name, img_name):
-    logging.debug('history keys {}'.format(str(history.history.keys())))
-    # summarize history for accuracy     
-    plt.subplot(211)  
-    plt.plot(history.history['accuracy'])  
-    plt.plot(history.history['val_accuracy'])  
-    plt.title('model accuracy')  
-    plt.ylabel('accuracy')  
-    plt.xlabel('epoch')  
-    plt.legend(['train', 'test'], loc='upper right')  
-    
-    # summarize history for loss  
-    
-    plt.subplot(212)  
-    plt.plot(history.history['loss'])  
-    plt.plot(history.history['val_loss'])  
-    plt.title('model loss')  
-    plt.ylabel('loss')  
-    plt.xlabel('epoch')  
-    plt.legend(['train', 'test'], loc='upper right')
-    plt.savefig('{}/{}'.format(img_dir_name, img_name))
-    pass
 
 # Train the model each generation and show predictions against the validation
 # dataset.
@@ -206,7 +184,7 @@ for iteration in range(1, 200):
                         verbose=2)
     logging.debug('history = {}'.format(history.history))
 
-    do_plots(history, img_dir_name, 'perf_{}.png'.format(iteration))
+    ph.do_plots(history, img_dir_name, 'perf_{}.png'.format(iteration))
     
     # Select 10 samples from the validation set at random so we can visualize
     # errors.
