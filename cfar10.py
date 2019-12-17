@@ -20,10 +20,12 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 import os
+import numpy as np
+import operator
 
 batch_size = 32
 num_classes = 10
-epochs = 5
+epochs = 1
 data_augmentation = True
 num_predictions = 20
 save_dir = os.path.join(os.getcwd(), 'saved_models')
@@ -137,3 +139,23 @@ scores = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
 
+# show some predictions from test data
+# we should be using a validation set
+# that the model has not seen yet
+cfar_sample = np.array([x_test[i] for i in np.random.randint(x_test.shape[0], size=(6))])
+cfar_categories = ['airplane','automobile','bird','cat','deer','dog','frog','horse','ship','truck']
+
+def get_category(x):
+    return cfar_categories[max(enumerate(x), key=operator.itemgetter(1))[0]]
+
+columns = 3
+rows = 2
+img_arr = x_test[np.random.randint(x_test.shape[0], size=(columns*rows))]
+predictions = [get_category(model.predict(img_arr)[i]) for i in range(len(img_arr))]
+fig=plt.figure(figsize=(8, 8))
+for i in range(1, columns*rows +1):
+    fig.add_subplot(rows, columns, i)
+    plt.imshow(img_arr[i - 1])
+    plt.axis('off');
+    plt.title(predictions[i - 1])
+fig.savefig('prediction_outputs/cifar-10-predictions.png')
