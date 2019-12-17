@@ -23,7 +23,7 @@ import os
 
 batch_size = 32
 num_classes = 10
-epochs = 100
+epochs = 5
 data_augmentation = True
 num_predictions = 20
 save_dir = os.path.join(os.getcwd(), 'saved_models')
@@ -123,7 +123,7 @@ else:
                                      batch_size=batch_size),
                         epochs=epochs,
                         validation_data=(x_test, y_test),
-                        workers=4)
+                        workers=4, callbacks=[tbCallBack], verbose=2)
 
 # Save model and weights
 if not os.path.isdir(save_dir):
@@ -136,3 +136,4 @@ print('Saved trained model at %s ' % model_path)
 scores = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
+
