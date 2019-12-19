@@ -6,6 +6,7 @@ import os
 import matplotlib.pyplot as plt
 import constants as const
 import plot_history as ph
+import cfar_predictions
 import keras
 from keras.models import Sequential
 from keras import layers
@@ -135,7 +136,7 @@ model.save(model_path)
 print('Saved trained model at %s ' % model_path)
 
 # Score trained model.
-scores = model.evaluate(x_test, y_test, verbose=1)
+scores = model.evaluate(x_test, y_test, verbose=2)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
 
@@ -148,14 +149,5 @@ cfar_categories = ['airplane','automobile','bird','cat','deer','dog','frog','hor
 def get_category(x):
     return cfar_categories[max(enumerate(x), key=operator.itemgetter(1))[0]]
 
-columns = 3
-rows = 2
-img_arr = x_test[np.random.randint(x_test.shape[0], size=(columns*rows))]
-predictions = [get_category(model.predict(img_arr)[i]) for i in range(len(img_arr))]
-fig=plt.figure(figsize=(8, 8))
-for i in range(1, columns*rows +1):
-    fig.add_subplot(rows, columns, i)
-    plt.imshow(img_arr[i - 1])
-    plt.axis('off');
-    plt.title(predictions[i - 1])
-fig.savefig('prediction_outputs/cifar-10-predictions.png')
+
+cfar_predictions(x_test, 'prediction_outputs/cifar-10-predictions.png', model, plt)
