@@ -1,3 +1,11 @@
+import numpy as np
+import operator
+
+cfar_categories = ['airplane','automobile','bird','cat','deer','dog','frog','horse','ship','truck']
+
+def get_category(x):
+    return cfar_categories[max(enumerate(x), key=operator.itemgetter(1))[0]]
+
 def do_predictions(x_test, file_name, model, plt):
     """ assuming test_arr has some cifar data in it
     plot a random sample of the images  and the preidctions

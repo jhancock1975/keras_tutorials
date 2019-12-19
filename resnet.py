@@ -30,7 +30,7 @@ import cfar_predictions
 
 # Training parameters
 batch_size = 32  # orig paper trained all networks with batch_size=128
-epochs = 10
+epochs = 1
 data_augmentation = True
 num_classes = 10
 
@@ -434,4 +434,6 @@ scores = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
 
-cfar_predictions.do_predictions(x_test, 'prediction_outputs/resnet-predictions.png', model, plt)
+cfar_sample = np.array([x_test[i] for i in np.random.randint(x_test.shape[0], size=(6))])
+
+cfar_predictions.do_predictions(cfar_sample, 'prediction_outputs/resnet-predictions.png', model, plt)
