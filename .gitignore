@@ -136,3 +136,6 @@ addition_rnn_plots/
 \#*
 
 prediction_outputs/
+
+image_ocr/
+vgg_block5_conv1*
