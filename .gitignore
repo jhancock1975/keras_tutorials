@@ -139,3 +139,7 @@ prediction_outputs/
 
 image_ocr/
 vgg_block5_conv1*
+
+params_discriminator*
+params_generator*
+plot_epoch*
